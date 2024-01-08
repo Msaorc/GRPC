@@ -1,5 +1,5 @@
 syntax = "proto3";
-package greet;
+package pb;
 option go_package = "internal/pb";
 
 // The request message containing the user's name.
