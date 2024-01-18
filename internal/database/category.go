@@ -19,7 +19,7 @@ func NewCategory(db *sql.DB) *Category {
 
 func (c *Category) Create(name string, description string) (Category, error) {
 	id := uuid.New().String()
-	_, err := c.db.Exec("INSERT INTO category (id, name, description) VALUES ($1, $2, $3)",
+	_, err := c.db.Exec("INSERT INTO categories (id, name, description) VALUES ($1, $2, $3)",
 		id, name, description)
 	if err != nil {
 		return Category{}, err
@@ -28,7 +28,7 @@ func (c *Category) Create(name string, description string) (Category, error) {
 }
 
 func (c *Category) FindAll() ([]Category, error) {
-	rows, err := c.db.Query("SELECT id, name, description FROM category")
+	rows, err := c.db.Query("SELECT id, name, description FROM categories")
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *Category) FindAll() ([]Category, error) {
 
 func (c *Category) FindByCourseID(courseID string) (Category, error) {
 	var id, name, description string
-	err := c.db.QueryRow("SELECT c.id, c.name, c.description FROM category c JOIN courses co ON c.id = co.category_id WHERE co.id = $1", courseID).
+	err := c.db.QueryRow("SELECT c.id, c.name, c.description FROM categories c JOIN courses co ON c.id = co.category_id WHERE co.id = $1", courseID).
 		Scan(&id, &name, &description)
 	if err != nil {
 		return Category{}, err
